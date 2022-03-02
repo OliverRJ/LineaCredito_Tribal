@@ -75,6 +75,7 @@ namespace TrivalCreditoWebApi
 
             // Add framework services.
             services.AddMvc();
+            services.AddSession();
 
             services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
             // configuration (resolvers, counter key builders)
@@ -153,6 +154,7 @@ namespace TrivalCreditoWebApi
             {
                 app.UseHttpsRedirection();
             }
+            app.UseSession();
 
             //app.UseIpRateLimiting();
             app.UseMiddleware<RateLimitMiddlware>();
