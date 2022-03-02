@@ -2108,11 +2108,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi.Tests\\TribalCreditoWebApi.Tests.csproj",
+      "projectUniqueName": "E:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi.Tests\\TribalCreditoWebApi.Tests.csproj",
       "projectName": "TribalCreditoWebApi.Tests",
-      "projectPath": "D:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi.Tests\\TribalCreditoWebApi.Tests.csproj",
+      "projectPath": "E:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi.Tests\\TribalCreditoWebApi.Tests.csproj",
       "packagesPath": "C:\\Users\\Oliver Rz Jz\\.nuget\\packages\\",
-      "outputPath": "D:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi.Tests\\obj\\",
+      "outputPath": "E:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -2131,8 +2131,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "D:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\TribalCreditoWebApi.csproj": {
-              "projectPath": "D:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\TribalCreditoWebApi.csproj"
+            "E:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\TribalCreditoWebApi.csproj": {
+              "projectPath": "E:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\TribalCreditoWebApi.csproj"
             }
           }
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "frx5cLzj44xXoB/QZemFrSeWFD5xInP3vKmvUT/BaRm+L+FO9MaWfj0hB23eouFnbBDYFU1jfvOZL2sVbqF3OA==",
+  "dgSpecHash": "39wtvKEfa1SwMHpQLLzD6blO1+6rkJzjooTiAlO6cDbOJwEaUJ3llFe2ixeW7JyAqn842T2XgW9Lf6A592Vm/w==",
   "success": true,
-  "projectFilePath": "D:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi.Tests\\TribalCreditoWebApi.Tests.csproj",
+  "projectFilePath": "E:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi.Tests\\TribalCreditoWebApi.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Oliver Rz Jz\\.nuget\\packages\\aspnetcoreratelimit\\4.0.1\\aspnetcoreratelimit.4.0.1.nupkg.sha512",
     "C:\\Users\\Oliver Rz Jz\\.nuget\\packages\\coverlet.collector\\1.2.0\\coverlet.collector.1.2.0.nupkg.sha512",

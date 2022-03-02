@@ -1260,11 +1260,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\TribalCreditoWebApi.csproj",
+      "projectUniqueName": "E:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\TribalCreditoWebApi.csproj",
       "projectName": "TribalCreditoWebApi",
-      "projectPath": "D:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\TribalCreditoWebApi.csproj",
+      "projectPath": "E:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\TribalCreditoWebApi.csproj",
       "packagesPath": "C:\\Users\\Oliver Rz Jz\\.nuget\\packages\\",
-      "outputPath": "D:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\obj\\",
+      "outputPath": "E:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

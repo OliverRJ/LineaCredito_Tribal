@@ -18,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using TribalCreditoWebApi.Middlewares;
 using TrivalCreditoWebApi.Context;
 using WebApiRoutesResponses.MiddleWares;
 
@@ -41,6 +42,7 @@ namespace TrivalCreditoWebApi
                                 .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
+
             services.AddCors(p =>
             {
                 p.AddPolicy("MyPolicy",
@@ -98,9 +100,11 @@ namespace TrivalCreditoWebApi
                 };
             });
 
+            //Agregamos una BD de uso en memoria
             services.AddDbContext<ApiAppContext>(options =>
              options.UseInMemoryDatabase("AppDB"));
 
+            // Se agrega Swagger para la documentación 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -131,23 +135,27 @@ namespace TrivalCreditoWebApi
             if (env.IsDevelopment())
             {
                 //app.UseDeveloperExceptionPage(); Detalle del Error
-                app.UseExceptionHandler("/error"); //control de mensaje de error
+                //Agrega control para mostrar un mensaje predeterminado en caso de error
+                app.UseExceptionHandler("/error"); 
+
+                //Configuramos Swagger sólo para desarrollo
                 app.UseSwagger(c =>
                 {
                     c.SerializeAsV2 = true;
                 });
 
-                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-                // specifying the Swagger JSON endpoint.
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 });
             }
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
-            app.UseIpRateLimiting();
-
-            //app.UseHttpsRedirection();
+            //app.UseIpRateLimiting();
+            app.UseMiddleware<RateLimitMiddlware>();
 
             app.UseRouting();
 

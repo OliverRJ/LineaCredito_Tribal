@@ -18,5 +18,17 @@ namespace TrivalCreditoWebApi.Tests
 
             Assert.NotEmpty(result);
         }
+
+        //public void SolicitarCreditoTest()
+        //{
+        //    using var apiContext = ApiTestContext.GetApiAppContext();
+        //    var creditController = new CreditController(apiContext);
+
+        //    var result = creditController.SolicitarCredito();
+
+        //    Assert.NotEmpty(result);
+        //}
     }
+
+
 }

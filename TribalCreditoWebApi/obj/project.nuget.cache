@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "W5QLg7LpmcfUaVBFdsorb1mOlZTtSM0tI9aLo/2ljKrvNoN0+tKMNIjgcOoaLoLHkp/QfKjn2E03xTljRJyqig==",
+  "dgSpecHash": "lwQbJh86qsoJDcm/TsRI/L6NLY4DAiqTmYdK3gqksK7kjThDWhrslKNZqI5NYCMb4sqlpuNGtJMPMUOTy5BbKA==",
   "success": true,
-  "projectFilePath": "D:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\TribalCreditoWebApi.csproj",
+  "projectFilePath": "E:\\Tribal\\LineaCredito_Tribal\\TribalCreditoWebApi\\TribalCreditoWebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Oliver Rz Jz\\.nuget\\packages\\aspnetcoreratelimit\\4.0.1\\aspnetcoreratelimit.4.0.1.nupkg.sha512",
     "C:\\Users\\Oliver Rz Jz\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.22\\microsoft.aspnetcore.authentication.jwtbearer.3.1.22.nupkg.sha512",
