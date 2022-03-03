@@ -57,6 +57,10 @@
               "target": "Package",
               "version": "[16.5.0, )"
             },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[5.5.1, )"
+            },
             "coverlet.collector": {
               "target": "Package",
               "version": "[1.2.0, )"

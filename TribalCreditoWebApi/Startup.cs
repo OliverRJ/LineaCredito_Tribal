@@ -18,7 +18,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using TribalCreditoWebApi.Middlewares;
 using TrivalCreditoWebApi.Context;
 using WebApiRoutesResponses.MiddleWares;
 
@@ -140,24 +139,26 @@ namespace TrivalCreditoWebApi
                 app.UseExceptionHandler("/error"); 
 
                 //Configuramos Swagger sólo para desarrollo
-                app.UseSwagger(c =>
-                {
-                    c.SerializeAsV2 = true;
-                });
-
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                });
+             
             }
             else
             {
                 app.UseHttpsRedirection();
             }
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = true;
+            });
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseSession();
 
             //app.UseIpRateLimiting();
-            app.UseMiddleware<RateLimitMiddlware>();
 
             app.UseRouting();
 

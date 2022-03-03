@@ -400,10 +400,10 @@ D:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\obj\Debug\netcoreapp3.1\
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\appsettings.Development.json
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\appsettings.json
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\TribalCreditoWebApi.exe
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\xunit.runner.reporters.netcoreapp10.dll
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\xunit.runner.utility.netcoreapp10.dll
-E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\TribalCreditoWebApi.exe
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.deps.json
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.runtimeconfig.json
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.runtimeconfig.dev.json
