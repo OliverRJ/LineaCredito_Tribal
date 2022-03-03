@@ -17,8 +17,8 @@ namespace TrivalCreditoWebApi.Controllers
     public class CreditController : ControllerBase
     {
         public const int limiteIntentos = 3;
-        public const int minutosEspera = 1;
-        public const int segundosEspera = 5;
+        public const int minutosEspera = 2;
+        public const int segundosEspera = 10;
         public const string SesionKeyEstadoSolicitud = "_Estado";
         public const string SesionKeyNumeroIntento = "_NumeroIntento";
         public const string SesionKeyNumeroSolicitud = "_NumeroSolicitud";
@@ -53,30 +53,37 @@ namespace TrivalCreditoWebApi.Controllers
             {
                 bool respuestaSolicitud = funciones.CalcularRiesgo(value);
 
-                //Si la solicitud fue aprobada entonces se registra la solicitud, de lo contrario se rechaza
+                //Si la solicitud fue aprobada entonces se registra, de lo contrario se rechaza.
                 if (respuestaSolicitud)
                 {
-                    RegistrarSolicitud(value);
-                    SetIntentoSesion(SesionKeyNumeroIntento, 0);
+                    RegistrarSolicitudAprobada(value);
                     respuesta.Message = "Se aceptó y se autorizó la linea de credito de " + value.RequestCreditLine;
                     return Ok(respuesta);
                 }
                 else
                 {
-                    //_numeroIntento++;
-                    respuesta.Message = "La solicitud linea de credito de " + value.RequestCreditLine + " fue rechazada.";
                     _numeroIntento++;
-                    SetIntentoSesion(SesionKeyNumeroIntento, _numeroIntento);
                     HttpContext.Session.SetString(SesionKeyEstadoSolicitud, "Rechazado");
-                    if (string.IsNullOrEmpty(HttpContext.Session.GetString(SesionKeyTiempoEspera)))
+                    DateTime tiempoLimite = Convert.ToDateTime(HttpContext.Session.GetString(SesionKeyTiempoEspera));
+                    if (string.IsNullOrEmpty(HttpContext.Session.GetString(SesionKeyTiempoEspera)) ||  DateTime.Now > tiempoLimite )
                     {
-                        HttpContext.Session.SetString(SesionKeyTiempoEspera, DateTime.Now.AddSeconds(segundosEspera).ToString());
-                        return Ok(respuesta);
+                        if (_numeroIntento >= limiteIntentos)
+                        {
+                            respuesta.Message = "Un agente de ventas lo contactará";
+                            return Ok(respuesta);
+                        }
+                        else
+                        {
+                            respuesta.Message = "La solicitud linea de credito de " + value.RequestCreditLine + " fue rechazada.";
+                            HttpContext.Session.SetString(SesionKeyTiempoEspera, DateTime.Now.AddSeconds(segundosEspera).ToString());
+                            SetIntentoSesion(SesionKeyNumeroIntento, _numeroIntento);
+                            return Ok(respuesta);
+                        }
                     }
                     else
                     {
                         
-                        DateTime tiempoLimite = Convert.ToDateTime(HttpContext.Session.GetString(SesionKeyTiempoEspera));
+                        tiempoLimite = Convert.ToDateTime(HttpContext.Session.GetString(SesionKeyTiempoEspera));
                         if (DateTime.Now < tiempoLimite)
                         {
                             SetIntentoSesion(SesionKeyNumeroIntento, 0);
@@ -84,17 +91,10 @@ namespace TrivalCreditoWebApi.Controllers
                         }
                         else
                         {
-                            if (_numeroIntento >= 3)
-                            {
-                                respuesta.Message = "Un agente de ventas lo contactará";
-                                return Ok(respuesta);
-                            }
-                            else
-                            {
-                                HttpContext.Session.SetString(SesionKeyTiempoEspera, DateTime.Now.AddSeconds(segundosEspera).ToString());
-                                respuesta.Message = "La solicitud linea de credito de " + value.RequestCreditLine + " fue rechazada.";
-                                return Ok(respuesta);
-                            }
+                            respuesta.Message = "La solicitud linea de credito de " + value.RequestCreditLine + " fue rechazada.";
+                            HttpContext.Session.SetString(SesionKeyTiempoEspera, DateTime.Now.AddSeconds(segundosEspera).ToString());
+                            SetIntentoSesion(SesionKeyNumeroIntento, _numeroIntento);
+                            return Ok(respuesta);
                         }
                     }
                 }
@@ -105,7 +105,7 @@ namespace TrivalCreditoWebApi.Controllers
                 _numeroIntento++;
                 SetIntentoSesion(SesionKeyNumeroIntento, _numeroIntento);
                 DateTime tiempoLimite = Convert.ToDateTime(HttpContext.Session.GetString(SesionKeyTiempoEspera));
-                if (DateTime.Now < tiempoLimite && _numeroIntento >= 3)
+                if (DateTime.Now < tiempoLimite && _numeroIntento >= limiteIntentos)
                 {
                     return StatusCode(429, "Exceso de peticiones");
                 }
@@ -143,10 +143,11 @@ namespace TrivalCreditoWebApi.Controllers
 
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public void RegistrarSolicitud(Request value)
+        public void RegistrarSolicitudAprobada(Request value)
         {
             apiContext.Requests.Add(value);
             apiContext.SaveChangesAsync();
+            SetIntentoSesion(SesionKeyNumeroIntento, 0);
             HttpContext.Session.SetString(SesionKeyEstadoSolicitud, "Aceptada");
             HttpContext.Session.SetString(SesionKeyTiempoEspera, DateTime.Now.AddMinutes(minutosEspera).ToString());
         }
