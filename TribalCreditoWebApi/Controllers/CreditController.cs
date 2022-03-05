@@ -79,9 +79,13 @@ namespace TrivalCreditoWebApi.Controllers
             }
             else
             {
+                Response respuesta = new Response();
                 //Se muestra mensaje con la cantidad de segundos a esperar antes de realizar otra petición.
                 TimeSpan tiempoEspera = tiempoLimiteRechazado - DateTime.Now;
-                return StatusCode(429, $"Exceso de peticiones, por favor vuelva a intentar en {tiempoEspera.Seconds} segundos.");
+                respuesta.Code = 429;
+                respuesta.Status = "Rechazado";
+                respuesta.Message = $"Exceso de peticiones, por favor vuelva a intentar en {tiempoEspera.Seconds} segundos.";
+                return StatusCode(429, respuesta);
             }
         }
 
@@ -118,8 +122,11 @@ namespace TrivalCreditoWebApi.Controllers
             apiContext.SaveChangesAsync();
             //Actualizar las variables de sesión y el mensaje a mostrar en el request.
             SetIntentoSesion(0);
-            SetEstadoSesion("Aceptada");
+            SetEstadoSesion("Aceptado");
             SetTiempoSesion(SesionKeyTiempoEsperaAceptado, DateTime.Now.AddMinutes(minutosEspera).ToString());
+
+            respuesta.Code = 200;
+            respuesta.Status = "Aceptado";
             respuesta.Message = "Se aceptó y se autorizó la linea de credito de " + miSolicitud.RequestCreditLine;
 
             return Ok(respuesta);
@@ -137,11 +144,15 @@ namespace TrivalCreditoWebApi.Controllers
              */
             if (intento > limiteIntentos)
             {
+                respuesta.Code = 200;
+                respuesta.Status = "Rechazado";
                 respuesta.Message = "Un agente de ventas lo contactará.";
                 return Ok(respuesta);
             }
             else
             {
+                respuesta.Code = 200;
+                respuesta.Status = "Rechazado";
                 respuesta.Message = $"La solicitud linea de credito de {montoLineaRechazada} fue rechazada.";
                 SetTiempoSesion(SesionKeyTiempoEsperaRechazado, DateTime.Now.AddSeconds(segundosEspera).ToString());
                 SetIntentoSesion(intento);
@@ -162,10 +173,15 @@ namespace TrivalCreditoWebApi.Controllers
 
             if (DateTime.Now < tiempoLimite && intento >= limiteIntentos)
             {
-                return StatusCode(429, $"Exceso de peticiones, recuerde que ya tiene una línea de crédito aprobada.");
+                respuesta.Code = 429;
+                respuesta.Status = "Aceptado";
+                respuesta.Message = "Exceso de peticiones, recuerde que ya tiene una línea de crédito aprobada.";
+                return StatusCode(429, respuesta);
             }
             else
             {
+                respuesta.Code = 200;
+                respuesta.Status = "Aceptado";
                 respuesta.Message = "Ya tiene una línea de crédito autorizada.";
                 return Ok(respuesta);
             }
