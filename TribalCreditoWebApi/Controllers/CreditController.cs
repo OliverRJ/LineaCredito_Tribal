@@ -17,11 +17,12 @@ namespace TrivalCreditoWebApi.Controllers
     public class CreditController : ControllerBase
     {
         private const int limiteIntentos = 3;
-        private const int minutosEspera = 2;
-        private const int segundosEspera = 5;
+        private const int minutosEspera = 1;
+        private const int segundosEspera = 10;
         private const string SesionKeyEstadoSolicitud = "_Estado";
         private const string SesionKeyNumeroIntento = "_NumeroIntento";
-        private const string SesionKeyTiempoEspera = "_TiempoEspera";
+        private const string SesionKeyTiempoEsperaAceptado = "_TiempoEsperaA";
+        private const string SesionKeyTiempoEsperaRechazado = "_TiempoEsperaR";
 
         ApiAppContext apiContext;
 
@@ -40,22 +41,20 @@ namespace TrivalCreditoWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Response> SolicitarCredito([FromBody] Request miSolicitud)
         {
-
-            Response respuesta = new Response();
             Comun funciones = new Comun();
 
             int _numeroIntento = GetIntentoSesion();
             string estadoSolicitud = GetEstadoSesion();
-            DateTime tiempoLimite = Convert.ToDateTime(GetTiempoSesion());
+            DateTime tiempoLimiteRechazado = Convert.ToDateTime(GetTiempoSesion(SesionKeyTiempoEsperaRechazado));
 
-            /*validar si existe tiempo de espera por límite de peticiones*/
-            if (DateTime.Now > tiempoLimite)
+            /*validar si existe tiempo de espera por límite de peticiones rechazadas*/
+            if (DateTime.Now > tiempoLimiteRechazado)
             {
                 /* Validar si existe una solicitud previamente aprobada o rechazada.
                  * Si la petición es nueva o anteriormente rechazada entonces se vuelve a calcular el riesgo.
                  * Si la solitud ya fue aprobada sólo validar el número de intentos en el tiempo límite.
                  */
-                if (string.IsNullOrEmpty(estadoSolicitud) || estadoSolicitud == "Rechazado")
+                if (estadoSolicitud == "Rechazado")
                 {
                     //Invocar a función para calcular el riesgo
                     bool respuestaSolicitud = funciones.CalcularRiesgo(miSolicitud);
@@ -70,19 +69,10 @@ namespace TrivalCreditoWebApi.Controllers
                         _numeroIntento++;
                         return ValidarCantidadPeticionRechazada(_numeroIntento, miSolicitud.RequestCreditLine);
                     }
-
-                }
-                else if (estadoSolicitud == "Espera")
-                {
-                    SetIntentoSesion(GetIntentoSesion() - 1);
-                    TimeSpan tiempoEspera = tiempoLimite - DateTime.Now;
-                    return StatusCode(429, $"Exceso de peticiones, por favor vuelva a intentar en {tiempoEspera.Seconds} segundos.");
                 }
                 else
                 {
-                    /* Primero sumar el número de intentos ACEPTADOS.
-                        * Luego validar la cantidad de intentos y el tiempo limite.
-                        */
+                    //Primero suma el número de intentos ACEPTADOS y luego valida la cantidad de intentos y el tiempo limite.
                     _numeroIntento++;
                     return ValidarCantidadPeticionAceptada(_numeroIntento);
                 }
@@ -90,7 +80,7 @@ namespace TrivalCreditoWebApi.Controllers
             else
             {
                 //Se muestra mensaje con la cantidad de segundos a esperar antes de realizar otra petición.
-                TimeSpan tiempoEspera = tiempoLimite - DateTime.Now;
+                TimeSpan tiempoEspera = tiempoLimiteRechazado - DateTime.Now;
                 return StatusCode(429, $"Exceso de peticiones, por favor vuelva a intentar en {tiempoEspera.Seconds} segundos.");
             }
         }
@@ -129,7 +119,7 @@ namespace TrivalCreditoWebApi.Controllers
             //Actualizar las variables de sesión y el mensaje a mostrar en el request.
             SetIntentoSesion(0);
             SetEstadoSesion("Aceptada");
-            SetTiempoSesion(DateTime.Now.AddMinutes(minutosEspera).ToString());
+            SetTiempoSesion(SesionKeyTiempoEsperaAceptado, DateTime.Now.AddMinutes(minutosEspera).ToString());
             respuesta.Message = "Se aceptó y se autorizó la linea de credito de " + miSolicitud.RequestCreditLine;
 
             return Ok(respuesta);
@@ -140,13 +130,12 @@ namespace TrivalCreditoWebApi.Controllers
 
             Response respuesta = new Response();
             SetEstadoSesion("Rechazado");
-            DateTime tiempoLimite = Convert.ToDateTime(GetTiempoSesion());
 
             /* Validar el numero de intentos de una solicitud rechazada.
-             * Si el número de intentos es mayor e igual que 3, entonces se muentra mensaje de "Agente lo contactará".
+             * Si el número de intentos es mayor a 3, entonces se muentra mensaje de "Agente lo contactará".
              * De lo contrario se muestra el credito rechazado y se establece tiempo limite de tiempo para volver a realizar una petición.
              */
-            if (intento >= limiteIntentos)
+            if (intento > limiteIntentos)
             {
                 respuesta.Message = "Un agente de ventas lo contactará.";
                 return Ok(respuesta);
@@ -154,7 +143,7 @@ namespace TrivalCreditoWebApi.Controllers
             else
             {
                 respuesta.Message = $"La solicitud linea de credito de {montoLineaRechazada} fue rechazada.";
-                SetTiempoSesion(DateTime.Now.AddSeconds(segundosEspera).ToString());
+                SetTiempoSesion(SesionKeyTiempoEsperaRechazado, DateTime.Now.AddSeconds(segundosEspera).ToString());
                 SetIntentoSesion(intento);
                 return Ok(respuesta);
             }
@@ -165,7 +154,7 @@ namespace TrivalCreditoWebApi.Controllers
         {
             Response respuesta = new Response();
             SetIntentoSesion(intento);
-            DateTime tiempoLimite = Convert.ToDateTime(GetTiempoSesion());
+            DateTime tiempoLimite = Convert.ToDateTime(GetTiempoSesion(SesionKeyTiempoEsperaAceptado));
             /* Validar el numero de intentos de acuerdo al tiempo límite.
              * Si en 2 min sigue intentando, entonces enviar código http 429, de lo contrario mostra mensaje de petición aceptada.
              * La línea de crédito debe ser la misma independientemente de las entradas.
@@ -212,19 +201,23 @@ namespace TrivalCreditoWebApi.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public string GetEstadoSesion()
         {
-            return HttpContext.Session.GetString(SesionKeyEstadoSolicitud);
+            string estadoSolicitud = HttpContext.Session.GetString(SesionKeyEstadoSolicitud);
+            if (string.IsNullOrEmpty(estadoSolicitud)){
+                estadoSolicitud = "Rechazado";
+            }
+            return estadoSolicitud;
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public void SetTiempoSesion(string value)
+        public void SetTiempoSesion(string key, string value)
         {
-            HttpContext.Session.SetString(SesionKeyTiempoEspera, value);
+            HttpContext.Session.SetString(key, value);
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public string GetTiempoSesion()
+        public string GetTiempoSesion(string key)
         {
-            string tiempoLimite = HttpContext.Session.GetString(SesionKeyTiempoEspera);
+            string tiempoLimite = HttpContext.Session.GetString(key);
             if (string.IsNullOrEmpty(tiempoLimite)){
                 tiempoLimite = DateTime.Now.ToString();
             }
