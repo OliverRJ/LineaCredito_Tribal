@@ -136,26 +136,26 @@ namespace TrivalCreditoWebApi
             {
                 //app.UseDeveloperExceptionPage(); Detalle del Error
                 //Agrega control para mostrar un mensaje predeterminado en caso de error
-                app.UseExceptionHandler("/error"); 
+                app.UseExceptionHandler("/error");
 
                 //Configuramos Swagger sólo para desarrollo
-             
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger(c =>
+                {
+                    c.SerializeAsV2 = true;
+                });
+
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                });
+
             }
             else
             {
                 app.UseHttpsRedirection();
             }
-            app.UseDeveloperExceptionPage();
-            app.UseSwagger(c =>
-            {
-                c.SerializeAsV2 = true;
-            });
-
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
-
+          
             app.UseSession();
 
             //app.UseIpRateLimiting();
