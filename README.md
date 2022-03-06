@@ -6,7 +6,7 @@ El proyecto es WebApi hecho con Net Core y que incluye lo siguiente:
 - Implementa CORS para limitar el llamado malicioso de orígenes desconocidos.
 - JWT para que generación de token de seguridad.
 - Incluye swagger como herramienta de documentación.
-- Incluye Ratelimit para el control de peticiones.
+- Incluye Ratelimit para el control de peticiones(se deshabilitó para usar otra lógica)
 - Incluye pruebas unitarias con Xunit.
 
 ## ¿Cómo usar el proyecto?
