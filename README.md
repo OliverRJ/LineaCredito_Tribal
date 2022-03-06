@@ -16,8 +16,10 @@ Se debe usar el Ide de Visual Studio para ejecutar las fuentes y Postman para la
 1. Ejecutar localmente el proyecto con nombre TribalCreditoWebApi en visual studio.
 2. Ingresar a postman y ejecutar el servicio que genera el token a usar para el llamado de los demás métodos:
 - Método get: http://localhost:2971/loginuser/requesttoken
-- copiar el token generado.
+- Copiar el token generado.
+![Image text](https://github.com/OliverRJ/LineaCredito_Tribal/blob/main/guia_token.jpg)
 3. Abrir otro request en postman, pero esta vez del tipo post, el cual debe usar "Autorización" del tipo *Bearer Token* y el Body del tipo *Raw - JSON*
+![Image text](https://github.com/OliverRJ/LineaCredito_Tribal/blob/main/guia_token2.jpg)
 - Método POST: http://localhost:2971/api/Credit/SolicitarCredito
 - Ejemplo Body: 
 ```json
