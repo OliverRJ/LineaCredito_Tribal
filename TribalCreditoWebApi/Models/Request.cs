@@ -7,6 +7,7 @@ namespace TrivalCreditoWebApi.Models
 {
     public class Request
     {
+
         public Guid RequestId { get; set; } = Guid.NewGuid();
         public string FoundingType { get; set; }
         public decimal CashBalance { get; set; }

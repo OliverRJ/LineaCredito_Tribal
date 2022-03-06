@@ -212,4 +212,3 @@ E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi\obj\Debug\netcoreapp3.1\static
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.dll
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.pdb
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.genruntimeconfig.cache
-E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.csprojAssemblyReference.cache

@@ -95,9 +95,9 @@ namespace TrivalCreditoWebApi.Controllers
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IEnumerable<Request> Get()
+        public ActionResult<Request> Get()
         {
-            return apiContext.Requests;
+            return Ok(apiContext.Requests);
         }
 
         ///<sumary> 

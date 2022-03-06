@@ -525,8 +525,8 @@ E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\bin\Debug\netcoreapp3.1\
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.csprojAssemblyReference.cache
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.AssemblyInfoInputs.cache
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.AssemblyInfo.cs
-E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.csproj.CoreCompileInputs.cache
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.csproj.CopyComplete
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.dll
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.pdb
 E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.genruntimeconfig.cache
+E:\Tribal\LineaCredito_Tribal\TribalCreditoWebApi.Tests\obj\Debug\netcoreapp3.1\TribalCreditoWebApi.Tests.csproj.CoreCompileInputs.cache
