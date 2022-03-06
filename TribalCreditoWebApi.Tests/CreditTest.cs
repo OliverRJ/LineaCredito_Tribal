@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TribalCreditoWebApi.Utils;
 using TrivalCreditoWebApi.Controllers;
 using TrivalCreditoWebApi.Models;
 using webapi.tests;
@@ -25,26 +26,27 @@ namespace TrivalCreditoWebApi.Tests
             Assert.IsType<OkObjectResult>(result.Result);
         }
 
-        [Fact]
-        public void IntentoSesionGet()
+        [Theory]
+        [InlineData("Startup", 120, 1200, 239, true)]
+        [InlineData("Startup", 120, 1200, 240, false)]
+        [InlineData("SME", 100, 1000, 200, false)]
+        [InlineData("SME", 100, 1000, 199, true)]
+        public void ValidaSocitudCredito(string foundingType, decimal cashBalance, decimal montlyRevenue, int requestedCreditLine, bool expected)
         {
             //Arrange
-            using var apiContext = ApiTestContext.GetApiAppContext();
-            //var mockContext = new Mock<HttpContext>();
-            //var mockSession = new Moq.Mock<ISession>();
-
-            //var sessionMock = new Mock<ISession>();
-//            sessionMock.Setup(s => s.GetString("userdata")).Returns(Object); --failing
-//sessionMock.Setup(s => s.SetString("userdata", object)); --failing
-
-            var creditController = new CreditController(apiContext);
-            byte[] dummy = System.Text.Encoding.UTF8.GetBytes("1");
-            //mockSession.Setup(x => x.TryGetValue(It.IsAny<string>(), out dummy)).Returns(true); //the out dummy does the trick
-            //mockContext.Setup(s => s.Session).Returns(mockSession.Object);
-            var result = creditController.GetIntentoSesion();
-
-
+            var comun = new Comun();
+            Request miSolicitud = new Request { FoundingType = foundingType, CashBalance = cashBalance, MontlyRevenue = montlyRevenue, RequestCreditLine = requestedCreditLine };
+            //Act
+            var result = comun.CalcularRiesgo(miSolicitud);
+            bool isValid = result;
+            //Assert
+            Assert.Equal(isValid, expected);
         }
+
+        /* Intenté realizar pruebas con el controlador pero por la sesión no me permite ejecutar.
+         * Se debe configurar Mock para realizar pruebas con variable de sesión, pero por problemas de compatibilidad con las librerías
+         * no podía hacer las pruebas correctamente.
+         */
 
         //[Theory]
         //[InlineData("Startup", 120, 1200, 150, false)]
